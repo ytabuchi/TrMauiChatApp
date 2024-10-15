@@ -1,26 +1,33 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="MobileApp.MainPage"
+             x:Class="MobileApp.Views.MainPage"
              xmlns:viewModel="clr-namespace:MobileApp.ViewModels"
              xmlns:Model="clr-namespace:MobileApp.Models"
              x:DataType="viewModel:MainPageViewModel"
              Title="{Binding Title}">
-
+   
     <StackLayout Padding="10">
         <Label Text="Select a Chat Room"
                FontSize="Large"
                HorizontalOptions="Center" />
 
-        <ListView x:Name="ChatRoomListView"
+        <CollectionView
                   ItemsSource="{Binding ChatRooms}"
-                  HasUnevenRows="true">
-            <ListView.ItemTemplate>
+                  SelectedItem="{Binding SelectedChatRoom}"
+                  SelectionChangedCommand="{Binding ChatRoomSelectedCommand}"
+                  SelectionMode="Single">
+            <CollectionView.ItemTemplate>
                 <DataTemplate x:DataType="Model:ChatRoom">
-                    <TextCell Text="{Binding Name}"
-                              Detail="{Binding Description}" />
+                    <StackLayout>
+                        <Label Text="{Binding Name}"
+                               FontSize="Medium" />
+                        <Label Text="{Binding Description}"
+                               FontSize="Small"
+                               TextColor="Gray" />
+                    </StackLayout>
                 </DataTemplate>
-            </ListView.ItemTemplate>
-        </ListView>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
     </StackLayout>
 </ContentPage>

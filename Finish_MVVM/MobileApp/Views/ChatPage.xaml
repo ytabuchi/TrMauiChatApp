@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="MobileApp.Views.ChatPage"
+             xmlns:viewModel="clr-namespace:MobileApp.ViewModels"
+             xmlns:model="clr-namespace:MobileApp.Models"
+             x:DataType="viewModel:ChatPageViewModel"
+             Title="{Binding Title}">
+
+    <Grid Padding="10" RowDefinitions="*, Auto">
+        <RefreshView Command="{Binding InitializeChatCommand}" IsRefreshing="{Binding IsRefreshing}">
+            <CollectionView Grid.Row="0" ItemsSource="{Binding ChatMessages}"
+                            SelectionMode="None">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate x:DataType="model:Message">
+                        <StackLayout Orientation="Horizontal"
+                                     HorizontalOptions="{Binding IsUserMessage, Converter={StaticResource BoolToHorizontalOptionsConverter}}">
+                            <Image Source="dotnet_bot.png"
+                                   WidthRequest="40"
+                                   HeightRequest="40"
+                                   Margin="5"
+                                   IsVisible="{Binding IsUserMessage, Converter={StaticResource BoolToVisibilityConverter}}" />
+                            <Frame BackgroundColor="{Binding IsUserMessage, Converter={StaticResource BoolToColorConverter}}"
+                                   CornerRadius="10"
+                                   Padding="10"
+                                   Margin="5"
+                                   HasShadow="True"
+                                   HorizontalOptions="StartAndExpand">
+                                <Label Text="{Binding MessageText}"
+                                       FontSize="16"
+                                       TextColor="Black"/>
+                            </Frame>
+                        </StackLayout>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+        </RefreshView>
+        <Grid Grid.Row="1" ColumnDefinitions="*, Auto" Padding="10" x:Name="input">
+            <Editor Text="{Binding MessageEntry}"
+                    Placeholder="Enter a message"
+                    Grid.Column="0"
+                    AutoSize="TextChanges"/>
+            <Button Text="Send"
+                    Command="{Binding SendClickedCommand}"
+                    Grid.Column="1"/>
+        </Grid>
+    </Grid>
+
+</ContentPage>

@@ -1,6 +1,6 @@
 ﻿using MobileApp.ViewModels;
 
-namespace MobileApp;
+namespace MobileApp.Views;
 
 public partial class MainPage : ContentPage
 {

@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.Logging;
 using MobileApp.Services;
 using MobileApp.ViewModels;
+using MobileApp.Views;
 
 namespace MobileApp;
 public static class MauiProgram
@@ -18,6 +19,8 @@ public static class MauiProgram
 
         builder.Services.AddSingleton<MainPage>();
         builder.Services.AddSingleton<MainPageViewModel>();
+        builder.Services.AddSingleton<ChatPage>();
+        builder.Services.AddSingleton<ChatPageViewModel>();
         builder.Services.AddSingleton<IChatService, ChatService>();
 
 #if DEBUG
