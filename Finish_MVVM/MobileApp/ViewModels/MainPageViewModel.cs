@@ -8,38 +8,41 @@ using MobileApp.Views;
 namespace MobileApp.ViewModels;
 public partial class MainPageViewModel : ViewModelBase
 {
-    public ObservableCollection<ChatRoom> ChatRooms { get; set; } = [];
+    public ObservableCollection<Bot> Bots { get; set; } = [];
 
     readonly IChatService _chatService;
 
     [ObservableProperty]
-    ChatRoom _selectedChatRoom;
+    Bot _selectedBot;
 
     public MainPageViewModel(IChatService chatService)
     {
         Title = "Chat Rooms";
         _chatService = chatService;
 
-        GetChatRooms();
+        GetBots();
     }
 
-    void GetChatRooms()
+    void GetBots()
     {
-        ChatRooms.Clear();
+        Bots.Clear();
 
-        var tempChatRoom = _chatService.GetChatRooms();
+        var tempChatRoom = _chatService.GetBots();
         foreach (var chatRoom in tempChatRoom)
         {
-            ChatRooms.Add(chatRoom);
+            Bots.Add(chatRoom);
         }
     }
 
     [RelayCommand]
-    async Task ChatRoomSelected()
+    async Task BotSelected()
     {
-        if (SelectedChatRoom is null)
+        if (SelectedBot is null)
             return;
 
-        await Shell.Current.GoToAsync(nameof(ChatPage), true);
+        await Shell.Current.GoToAsync(nameof(ChatPage), true, new Dictionary<string, object>
+        {
+            { "Bot", SelectedBot }
+        });
     }
 }

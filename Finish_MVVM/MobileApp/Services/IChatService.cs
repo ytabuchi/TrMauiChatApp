@@ -3,7 +3,7 @@
 namespace MobileApp.Services;
 public interface IChatService
 {
-    List<ChatRoom> GetChatRooms();
+    List<Bot> GetBots();
 
-    Task<Message> SendRequestAsync(string userMessage);
+    Task<Message> SendRequestAsync(string userMessage, Bot bot);
 }

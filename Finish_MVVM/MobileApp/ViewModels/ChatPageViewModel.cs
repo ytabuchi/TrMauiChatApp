@@ -8,11 +8,15 @@ using CommunityToolkit.Mvvm.Input;
 
 namespace MobileApp.ViewModels;
 
+[QueryProperty(nameof(Bot), "Bot")]
 public partial class ChatPageViewModel : ViewModelBase
 {
     public ObservableCollection<Message> ChatMessages { get; set; } = [];
 
     readonly IChatService _chatService;
+
+    [ObservableProperty]
+    Bot _bot;
 
     [ObservableProperty]
     bool _canSend = true;
@@ -25,17 +29,28 @@ public partial class ChatPageViewModel : ViewModelBase
 
     public ChatPageViewModel(IChatService chatService)
     {
-        Title = "Chat Page";
         _chatService = chatService;
+    }
 
-        InitializeChat();
+    partial void OnBotChanged(Bot? oldValue, Bot newValue)
+    {
+        InitializeChat(newValue.Icon);
     }
 
     [RelayCommand]
-    void InitializeChat()
+    void RefreshClicked()
     {
+        InitializeChat(Bot.Icon);
+    }
+
+    void InitializeChat(string botIcon)
+    {
+        CanSend = false;
+
         ChatMessages.Clear();
-        ChatMessages.Add(new Message { MessageText = "質問を入力してください", TimeStamp = DateTime.Now.ToString("HH:mm:ss"), IsUserMessage = false });
+        ChatMessages.Add(new Message { MessageText = "質問を入力してください", IsUserMessage = false, Icon = botIcon });
+
+        CanSend = true;
         IsRefreshing = false;
     }
 
@@ -46,11 +61,11 @@ public partial class ChatPageViewModel : ViewModelBase
 
         await Task.Delay(1000);
 
-        var userMessage = new Message { MessageText = MessageEntry, TimeStamp = DateTime.Now.ToString("HH:mm:ss"), IsUserMessage = true };
+        var userMessage = new Message { MessageText = MessageEntry, IsUserMessage = true };
         ChatMessages.Add(userMessage);
         MessageEntry = string.Empty;
 
-        var responseMessage = await _chatService.SendRequestAsync(userMessage.MessageText);
+        var responseMessage = await _chatService.SendRequestAsync(userMessage.MessageText, Bot);
         ChatMessages.Add(responseMessage);
 
         CanSend = true;

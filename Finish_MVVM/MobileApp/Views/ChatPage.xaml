@@ -5,17 +5,17 @@
              xmlns:viewModel="clr-namespace:MobileApp.ViewModels"
              xmlns:model="clr-namespace:MobileApp.Models"
              x:DataType="viewModel:ChatPageViewModel"
-             Title="{Binding Title}">
+             Title="{Binding Bot.Name}">
 
     <Grid Padding="10" RowDefinitions="*, Auto">
-        <RefreshView Command="{Binding InitializeChatCommand}" IsRefreshing="{Binding IsRefreshing}">
+        <RefreshView Command="{Binding RefreshClickedCommand}" IsRefreshing="{Binding IsRefreshing}">
             <CollectionView Grid.Row="0" ItemsSource="{Binding ChatMessages}"
                             SelectionMode="None">
                 <CollectionView.ItemTemplate>
                     <DataTemplate x:DataType="model:Message">
                         <StackLayout Orientation="Horizontal"
                                      HorizontalOptions="{Binding IsUserMessage, Converter={StaticResource BoolToHorizontalOptionsConverter}}">
-                            <Image Source="dotnet_bot.png"
+                            <Image Source="{Binding Icon}"
                                    WidthRequest="40"
                                    HeightRequest="40"
                                    Margin="5"
