@@ -21,10 +21,12 @@ public static class MauiProgram
         builder.Services.AddSingleton<MainPageViewModel>();
         builder.Services.AddSingleton<ChatPage>();
         builder.Services.AddSingleton<ChatPageViewModel>();
-        builder.Services.AddSingleton<IChatService, ChatService>();
 
 #if DEBUG
+        builder.Services.AddSingleton<IChatService, MockChatService>();
         builder.Logging.AddDebug();
+#else
+        builder.Services.AddSingleton<IChatService, ChatService>();
 #endif
 
         return builder.Build();
