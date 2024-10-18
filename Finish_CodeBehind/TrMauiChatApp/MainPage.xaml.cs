@@ -24,7 +24,7 @@ public partial class MainPage : ContentPage
     void InitializeChat()
     {
         ChatMessages.Clear();
-        ChatMessages.Add(new Message { MessageText = "質問を入力してください", TimeStamp = DateTime.Now.ToString("HH:mm:ss"), IsUserMessage = false });
+        ChatMessages.Add(new Message { MessageText = "質問を入力してください", IsUserMessage = false });
         BindingContext = ChatMessages;
     }
 
@@ -33,7 +33,7 @@ public partial class MainPage : ContentPage
         MessageEntry.IsEnabled = false;
         SendButton.IsEnabled = false;
 
-        var userMessage = new Message { MessageText = MessageEntry.Text, TimeStamp = DateTime.Now.ToString("HH:mm:ss"), IsUserMessage = true };
+        var userMessage = new Message { MessageText = MessageEntry.Text, IsUserMessage = true };
         ChatMessages.Add(userMessage);
         MessageEntry.Text = string.Empty;
 
@@ -98,7 +98,6 @@ public partial class MainPage : ContentPage
             var assistantMessage = new Message
             {
                 MessageText = assistantMessageContent ?? "Error!!",
-                TimeStamp = DateTime.Now.ToString("HH:mm:ss"),
                 IsUserMessage = false
             };
             return assistantMessage;
@@ -108,7 +107,6 @@ public partial class MainPage : ContentPage
             return new Message
             {
                 MessageText = $"Error: {response.StatusCode}",
-                TimeStamp = DateTime.Now.ToString("HH:mm:ss"),
                 IsUserMessage = false
             };
         }
