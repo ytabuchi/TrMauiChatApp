@@ -620,6 +620,8 @@ public interface IChatService
 `Services` フォルダを右クリックして「追加＞クラス」から `ChatService` クラスを作成します。
 
 `ChatService.cs` クラスに `IChatService` の継承を追加し、内容を次のように書き換えます。  
+※ `_url` と `_apiKey` に別途お伝えした情報を入れるのを忘れないようにしてください。
+
 
 ```cs
     public List<Bot> GetBots()
@@ -875,6 +877,8 @@ Layout の詳細は [CollectionView レイアウトの指定 | Microsoft Docs](h
 ```cs
 using Microsoft.Extensions.Logging;
 using MobileApp.Services;
+using MobileApp.ViewModels;
+using MobileApp.Views;
 
 namespace MobileApp;
 public static class MauiProgram
@@ -1152,6 +1156,29 @@ public class BoolToVisibilityConverter : IValueConverter
 }
 ```
 
+3つのConverterの作成が終わったら、それらを `App.xaml` に登録します。
+※ `xmlns:converter="clr-namespace:MobileApp.Converters"` も忘れずに追加してください
+
+```xml
+<?xml version = "1.0" encoding = "UTF-8" ?>
+<Application xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:converter="clr-namespace:MobileApp.Converters"
+             x:Class="MobileApp.App">
+    <Application.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="Resources/Styles/Colors.xaml" />
+                <ResourceDictionary Source="Resources/Styles/Styles.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+            <converter:BoolToColorConverter x:Key="BoolToColorConverter" />
+            <converter:BoolToHorizontalOptionsConverter x:Key="BoolToHorizontalOptionsConverter" />
+            <converter:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
+        </ResourceDictionary>
+    </Application.Resources>
+</Application>
+```
+
 これでConverterの作成は完了です。
 
 ### View の実装 (ChatPage)
@@ -1208,6 +1235,23 @@ public class BoolToVisibilityConverter : IValueConverter
 #### PullToRefresh について
 
 .NET MAUI では `RefreshView` が用意されています。`RefreshView` の詳細は [RefreshView | Microsoft Docs](https://learn.microsoft.com/ja-jp/dotnet/maui/user-interface/controls/refreshview) を参照してください。
+
+### Routingの追加
+
+MainPageからChatPageに画面遷移するには、画面を作成するだけではなくRoutingを定義する必要があります。
+`AppShell.xaml.cs` に以下のように追記しましょう。
+
+```cs
+public partial class AppShell : Shell
+{
+    public AppShell()
+    {
+        InitializeComponent();
+
+        Routing.RegisterRoute(nameof(ChatPage), typeof(ChatPage));
+    }
+}
+```
 
 この時点でデバッグ実行してみましょう。  
 1画面目でChatBotを選択しChat画面に遷移後、以下のように質問に回答が返ってくればOKです。

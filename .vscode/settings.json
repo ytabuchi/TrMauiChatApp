@@ -3,6 +3,7 @@
         "AOAI",
         "HAXM",
         "MVVM",
-        "Tizen"
+        "Tizen",
+        "typeof"
     ]
 }
