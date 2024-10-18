@@ -867,6 +867,45 @@ Layout の詳細は [CollectionView レイアウトの指定 | Microsoft Docs](h
 
 > XAML ホット リロードは、実行中のアプリで XAML の変更の結果を表示できる Visual Studio 機能であり、プロジェクトをリビルドする必要はありません。 XAML ホット リロードを使用しない場合は、XAML の変更の結果を表示するたびにアプリをビルドしてデプロイする必要があります。
 
+### MauiProgram.csにて、作成したViewとViewModelたちを登録
+
+下記のように記述しDIコンテナーに登録します。  
+これでViewのコンストラクタの引数としてViewModelを受け取ることができ、紐付けがなされます。
+
+```cs
+using Microsoft.Extensions.Logging;
+using MobileApp.Services;
+
+namespace MobileApp;
+public static class MauiProgram
+{
+    public static MauiApp CreateMauiApp()
+    {
+        var builder = MauiApp.CreateBuilder();
+        builder
+            .UseMauiApp<App>()
+            .ConfigureFonts(fonts =>
+            {
+                fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
+                fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
+            });
+
+        builder.Services.AddSingleton<MainPage>();
+        builder.Services.AddSingleton<MainPageViewModel>();
+        builder.Services.AddSingleton<ChatPage>();
+        builder.Services.AddSingleton<ChatPageViewModel>();
+
+        builder.Services.AddSingleton<IChatService, ChatService>();
+
+#if DEBUG
+        builder.Logging.AddDebug();
+#endif
+
+        return builder.Build();
+    }
+}
+```
+
 この時点でデバッグ実行してみましょう。以下のような画面が表示されればOKです。
 
 <img src="./images/mvvm-05.png" width="300" alt="Bot selection screen">
