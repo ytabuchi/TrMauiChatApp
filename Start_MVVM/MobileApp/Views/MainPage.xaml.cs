@@ -10,6 +10,3 @@ public partial class MainPage : ContentPage
         BindingContext = vm;
     }
 }
-
-
-
