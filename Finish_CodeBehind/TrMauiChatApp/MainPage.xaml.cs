@@ -57,59 +57,68 @@ public partial class MainPage : ContentPage
         SendButton.IsEnabled = true;
     }
 
-    static readonly HttpClient _httpClient = new HttpClient();
-    static readonly string _url = "";
-    static readonly string _apiKey = "";
+    //static readonly HttpClient _httpClient = new HttpClient();
+    //static readonly string _url = "";
+    //static readonly string _apiKey = "";
+    //async Task<Message> SendRequestAsync(string userMessage)
+    //{
+    //    var requestBody = new
+    //    {
+    //        messages = new[]
+    //        {
+    //                new { role = "system", content = "あなたは.NETのマスコットキャラクターである.NET Bot君です。.NET MAUIに関することを教えてください。" },
+    //                new { role = "user", content = userMessage },
+    //                new { role = "assistant", content = "" }
+    //            },
+    //        temperature = 0.8,
+    //        top_p = 0.95,
+    //        frequency_penalty = 0,
+    //        presence_penalty = 0,
+    //        max_tokens = 800,
+    //        stop = "null"
+    //    };
+
+    //    var json = JsonSerializer.Serialize(requestBody);
+    //    var content = new StringContent(json, Encoding.UTF8, "application/json");
+    //    _httpClient.DefaultRequestHeaders.Clear();
+    //    _httpClient.DefaultRequestHeaders.Add("api-key", _apiKey);
+
+    //    var response = await _httpClient.PostAsync(_url, content);
+
+    //    if (response.IsSuccessStatusCode)
+    //    {
+    //        var responseBody = await response.Content.ReadAsStringAsync();
+    //        var responseJson = JsonDocument.Parse(responseBody);
+    //        var assistantMessageContent = responseJson.RootElement
+    //            .GetProperty("choices")[0]
+    //            .GetProperty("message")
+    //            .GetProperty("content")
+    //            .GetString();
+
+    //        var assistantMessage = new Message
+    //        {
+    //            MessageText = assistantMessageContent ?? "Error!!",
+    //            IsUserMessage = false
+    //        };
+    //        return assistantMessage;
+    //    }
+    //    else
+    //    {
+    //        return new Message
+    //        {
+    //            MessageText = $"Error: {response.StatusCode}",
+    //            IsUserMessage = false
+    //        };
+    //    }
+    //}
+
     async Task<Message> SendRequestAsync(string userMessage)
     {
-        var requestBody = new
+        return new Message
         {
-            messages = new[]
-            {
-                    new { role = "system", content = "あなたは.NETのマスコットキャラクターである.NET Bot君です。.NET MAUIに関することを教えてください。" },
-                    new { role = "user", content = userMessage },
-                    new { role = "assistant", content = "" }
-                },
-            temperature = 0.8,
-            top_p = 0.95,
-            frequency_penalty = 0,
-            presence_penalty = 0,
-            max_tokens = 800,
-            stop = "null"
+            MessageText = userMessage,
+            IsUserMessage = false
         };
-
-        var json = JsonSerializer.Serialize(requestBody);
-        var content = new StringContent(json, Encoding.UTF8, "application/json");
-        _httpClient.DefaultRequestHeaders.Clear();
-        _httpClient.DefaultRequestHeaders.Add("api-key", _apiKey);
-
-        var response = await _httpClient.PostAsync(_url, content);
-
-        if (response.IsSuccessStatusCode)
-        {
-            var responseBody = await response.Content.ReadAsStringAsync();
-            var responseJson = JsonDocument.Parse(responseBody);
-            var assistantMessageContent = responseJson.RootElement
-                .GetProperty("choices")[0]
-                .GetProperty("message")
-                .GetProperty("content")
-                .GetString();
-
-            var assistantMessage = new Message
-            {
-                MessageText = assistantMessageContent ?? "Error!!",
-                IsUserMessage = false
-            };
-            return assistantMessage;
-        }
-        else
-        {
-            return new Message
-            {
-                MessageText = $"Error: {response.StatusCode}",
-                IsUserMessage = false
-            };
-        }
     }
 }
 
