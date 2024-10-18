@@ -1,3 +1,4 @@
+<!-- markdownlint-disable MD033 -->
 # ハンズオンドキュメント
 
 ## 目次
@@ -270,45 +271,42 @@ public class Message
 `ScrollView` 内をすべて削除し、次の XAML で置き換えます。次のようになります。
 
 ```xml
-    <Grid Padding="10" RowDefinitions="*, Auto">
-        <RefreshView x:Name="ChatRefreshView" Refreshing="PullToRefreshing">
-            <CollectionView Grid.Row="0" ItemsSource="{Binding}"
-                            SelectionMode="None">
-                <CollectionView.ItemTemplate>
-                    <DataTemplate>
-                        <StackLayout Orientation="Horizontal"
-                                     HorizontalOptions="{Binding IsUserMessage, Converter={StaticResource BoolToHorizontalOptionsConverter}}">
-                            <Image Source="dotnet_bot.png"
-                                   WidthRequest="40"
-                                   HeightRequest="40"
-                                   Margin="5"
-                                   IsVisible="{Binding IsUserMessage, Converter={StaticResource BoolToVisibilityConverter}}" />
-                            <Frame BackgroundColor="{Binding IsUserMessage, Converter={StaticResource BoolToColorConverter}}"
-                                   CornerRadius="10"
-                                   Padding="10"
-                                   Margin="5"
-                                   HasShadow="True"
-                                   HorizontalOptions="StartAndExpand">
-                                <Label Text="{Binding MessageText}"
-                                       FontSize="16"
-                                       TextColor="Black"/>
-                            </Frame>
-                        </StackLayout>
-                    </DataTemplate>
-                </CollectionView.ItemTemplate>
-            </CollectionView>
-        </RefreshView>
-        <Grid Grid.Row="1" ColumnDefinitions="*, Auto" Padding="10" x:Name="input">
-            <Editor x:Name="MessageEntry"
-                    Placeholder="Enter a message"
-                    Grid.Column="0"
-                    AutoSize="TextChanges"/>
-            <Button x:Name="SendButton"
-                    Text="Send"
-                    Clicked="OnSendClicked"
-                    Grid.Column="1"/>
-        </Grid>
+<Grid Padding="10" RowDefinitions="*, Auto">
+    <RefreshView x:Name="ChatRefreshView" Refreshing="PullToRefreshing">
+        <CollectionView Grid.Row="0" ItemsSource="{Binding}"
+                        SelectionMode="None">
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+                    <StackLayout Orientation="Horizontal">
+                        <Image Source="dotnet_bot.png"
+                                WidthRequest="40"
+                                HeightRequest="40"
+                                Margin="5" />
+                        <Frame CornerRadius="10"
+                                Padding="10"
+                                Margin="5"
+                                HasShadow="True"
+                                HorizontalOptions="StartAndExpand">
+                            <Label Text="{Binding MessageText}"
+                                    FontSize="16"
+                                    TextColor="Black"/>
+                        </Frame>
+                    </StackLayout>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+    </RefreshView>
+    <Grid Grid.Row="1" ColumnDefinitions="*, Auto" Padding="10" x:Name="input">
+        <Editor x:Name="MessageEntry"
+                Placeholder="Enter a message"
+                Grid.Column="0"
+                AutoSize="TextChanges"/>
+        <Button x:Name="SendButton"
+                Text="Send"
+                Clicked="OnSendClicked"
+                Grid.Column="1"/>
     </Grid>
+</Grid>
 ```
 
 後ほど、同じような View を順を追って少しずつ作成しますので、ここでの詳しい説明は割愛します。
@@ -390,7 +388,6 @@ public class Message
 
 ここでデバッグ実行してみましょう。次のような画面が表示されれば OK です。  
 Chatを入力すると、入力した文言をオウム返しされるので試してみましょう。  
-<!-- markdownlint-disable MD033 -->
 <img src="./images/maui-12.png" width="300" alt="Chat application screenshot" />
 
 ### AOAI Endpoint への接続切り替え
@@ -398,7 +395,6 @@ Chatを入力すると、入力した文言をオウム返しされるので試�
 `SendRequestAsync` メソッドを、実際のAOAIのEndpointにChatを投げるよう以下のコードに置き換えます。(`_url`と`_apiKey`の内容は別途お伝えします)  
 ※ 実際の開発では、このようにコードに直接Key情報を書き込むべきではありません。今回はあくまでハンズオンのコードなのでこのようにしています。  
 また、今回はハンズオンのため省力して直接AOAIのEndpointを呼び出していますが、実際に開発では別途 Web API を構築してそこからAOAIを呼び出すようにし、MAUIアプリはそのWeb API を呼ぶようにしてセキュリティを高めたほうが良いでしょう。
-
 
 ```cs
     static readonly HttpClient _httpClient = new HttpClient();
