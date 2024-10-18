@@ -622,7 +622,6 @@ public interface IChatService
 `ChatService.cs` クラスに `IChatService` の継承を追加し、内容を次のように書き換えます。  
 ※ `_url` と `_apiKey` に別途お伝えした情報を入れるのを忘れないようにしてください。
 
-
 ```cs
     public List<Bot> GetBots()
     {
@@ -1156,7 +1155,7 @@ public class BoolToVisibilityConverter : IValueConverter
 }
 ```
 
-3つのConverterの作成が終わったら、それらを `App.xaml` に登録します。
+3つのConverterの作成が終わったら、それらを `App.xaml` に登録します。  
 ※ `xmlns:converter="clr-namespace:MobileApp.Converters"` も忘れずに追加してください
 
 ```xml
