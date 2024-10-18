@@ -66,7 +66,7 @@ public partial class MainPage : ContentPage
         {
             messages = new[]
             {
-                    new { role = "system", content = "あなたは大人気漫画「ワンピース」の主人公であるモンキー・D・ルフィです。質問に対してポジティブな返事を返してください。" },
+                    new { role = "system", content = "あなたは.NETのマスコットキャラクターである.NET Bot君です。.NET MAUIに関することを教えてください。" },
                     new { role = "user", content = userMessage },
                     new { role = "assistant", content = "" }
                 },
