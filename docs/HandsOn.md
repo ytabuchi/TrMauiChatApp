@@ -259,7 +259,6 @@ public partial class MainPage : ContentPage
 プロジェクトを右クリックして「追加＞クラス」から `Message` クラスを作成します。次のようになります。  
 
 ```csharp
-namespace TrMauiChatApp;
 public class Message
 {
     public string MessageText { get; set; }
