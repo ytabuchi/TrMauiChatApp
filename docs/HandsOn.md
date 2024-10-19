@@ -832,32 +832,34 @@ View を作成していきましょう。`MainPage.xaml` を開きます。
 `Welcome to &#10;.NET Multi-platform App UI` と表示されている `Label` 要素を削除し、代わりに以下の `Label` と `CollectionView` を追加します。
 
 ```xml
-<Label Text="Select a Bot"
-        FontSize="Large"
-        HorizontalOptions="Center" />
+    <StackLayout>
+        <Label Text="Select a Bot"
+               FontSize="Large"
+               HorizontalOptions="Center" />
 
-<CollectionView
+        <CollectionView
             ItemsSource="{Binding Bots}"
             SelectedItem="{Binding SelectedBot}"
             SelectionChangedCommand="{Binding BotSelectedCommand}"
             SelectionMode="Single">
-    <CollectionView.ItemTemplate>
-        <DataTemplate x:DataType="Model:Bot">
-            <StackLayout Orientation="Horizontal" Padding="8" Spacing="20">
-                <Image Source="{Binding Icon}"
+            <CollectionView.ItemTemplate>
+                <DataTemplate x:DataType="Model:Bot">
+                    <StackLayout Orientation="Horizontal" Padding="8" Spacing="20">
+                        <Image Source="{Binding Icon}"
                             WidthRequest="40"
                             HeightRequest="40" />
-                <StackLayout Spacing="4">
-                    <Label Text="{Binding Name}"
-                            FontSize="Medium" />
-                    <Label Text="{Binding Description}"
-                            FontSize="Small"
-                            TextColor="Gray" />
-                </StackLayout>
-            </StackLayout>
-        </DataTemplate>
-    </CollectionView.ItemTemplate>
-</CollectionView>
+                        <StackLayout Spacing="4">
+                            <Label Text="{Binding Name}"
+                                FontSize="Medium" />
+                            <Label Text="{Binding Description}"
+                                FontSize="Small"
+                                TextColor="Gray" />
+                        </StackLayout>
+                    </StackLayout>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+    </StackLayout>
 ```
 
 `CollectionView` の詳細は [CollectionView | Microsoft Docs](https://learn.microsoft.com/ja-jp/dotnet/maui/user-interface/controls/collectionview/) を参照してください。
