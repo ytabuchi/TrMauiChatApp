@@ -626,6 +626,8 @@ public interface IChatService
 ※ `_url` と `_apiKey` に別途お伝えした情報を入れるのを忘れないようにしてください。
 
 ```cs
+public class ChatService : IChatService
+{
     public List<Bot> GetBots()
     {
         return
@@ -642,6 +644,7 @@ public interface IChatService
     static readonly HttpClient _httpClient = new HttpClient();
     static readonly string _url = "";
     static readonly string _apiKey = "";
+
     public async Task<Message> SendRequestAsync(string userMessage, Bot bot)
     {
         var requestBody = new
@@ -695,6 +698,7 @@ public interface IChatService
             };
         }
     }
+}
 ```
 
 不足する using は IntelliSense で追加できます。  
